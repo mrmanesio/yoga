@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // timer
 
-    let deadLine = '2020-2-11';
+    let deadLine = '2020-5-31';
 
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(new Date()),
@@ -85,4 +85,30 @@ window.addEventListener('DOMContentLoaded', function () {
     };
 
     setClock('timer', deadLine);
+
+    // modal box
+
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close'),
+        descriptionBtn = document.querySelectorAll('.description-btn');
+     
+    function openModal() {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    }
+
+    more.addEventListener('click', openModal);
+
+    descriptionBtn.forEach(function(item) {
+        item.addEventListener('click', openModal);
+    })
+
+    close.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    })
+
 });
