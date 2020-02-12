@@ -93,22 +93,29 @@ window.addEventListener('DOMContentLoaded', function () {
         close = document.querySelector('.popup-close'),
         descriptionBtn = document.querySelectorAll('.description-btn');
      
-    function openModal() {
+    const openModal = () => {
         overlay.style.display = 'block';
         this.classList.add('more-splash');
         document.body.style.overflow = 'hidden';
-    }
+    };
+
+    const closeModal = (event) => {
+        const target = event.target;
+        if (target === overlay || target.classList.contains('popup-close') || event.keyCode === 27) {
+            overlay.style.display = 'none';
+            more.classList.remove('more-splash');
+            document.body.style.overflow = '';
+        };
+    };
 
     more.addEventListener('click', openModal);
-
     descriptionBtn.forEach(function(item) {
         item.addEventListener('click', openModal);
-    })
+    });
 
-    close.addEventListener('click', function() {
-        overlay.style.display = 'none';
-        more.classList.remove('more-splash');
-        document.body.style.overflow = '';
-    })
+    overlay.addEventListener('click', closeModal);
+    document.addEventListener('keyup', closeModal);
+ 
+    
 
 });
