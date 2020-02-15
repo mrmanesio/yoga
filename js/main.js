@@ -116,6 +116,56 @@ window.addEventListener('DOMContentLoaded', function () {
     overlay.addEventListener('click', closeModal);
     document.addEventListener('keyup', closeModal);
  
-    
+    // Forms
+
+    let message = {                                                     
+        loading: 'Загрузка',
+        success: 'Спасибо, мы свяжемся с Вами...',
+        failure: 'Что-то пошло не так...'
+    };
+
+    let form = document.querySelector('.main-form'),
+        input = form.querySelectorAll('input'),
+        statusMessage = document.createElement('div');                                          // блок, где будут выводится сообщения
+
+    statusMessage.classList.add('status');
+
+    form.addEventListener('submit', (event) => {                                                // отслеживаем submit (именно его, а не клик)
+        // event.preventDefault();                                                              // убираем перезагрузку браузера
+        form.appendChild(statusMessage);
+
+        let request = new XMLHttpRequest();                                                     // создаем запрос
+        request.open('POST', 'server.php');                                                     // настройка запроса (метод, урл сервера, прочее)
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');          
+        //request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');          //если нужен ответ в JSON
+        
+
+        let formData = new FormData(form);
+
+        // let obj = {};
+        // formData.forEach((value,key)=>{
+        //     obj[key] = value;
+        // });
+        // let json = JSON.stringify(obj);
+
+        request.send(formData);
+        // request.send(json);
+
+
+        request.addEventListener('readystatechange', () => {                                    // отсеживаем событие readystatechange, 
+            if (request.readyState < 4) {                                                       // 4 возвращает, когда все ок
+                statusMessage.innerHTML = message.loading;
+            } else if (request.readyState === 4 & request.status == 200) {
+                statusMessage.innerHTML = message.success;
+            } else {
+                statusMessage.innerHTML = message.failure;
+
+            }
+        });
+
+            for (let i=0; i<input.length; i++) {                                                // очищаем инпуты 
+                input[i].value = '';
+            };
+    });
 
 });
