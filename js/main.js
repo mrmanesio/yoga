@@ -95,7 +95,7 @@ window.addEventListener('DOMContentLoaded', function () {
      
     const openModal = () => {
         overlay.style.display = 'block';
-        this.classList.add('more-splash');
+        // this.classList.add('more-splash');
         document.body.style.overflow = 'hidden';
     };
 
@@ -103,7 +103,7 @@ window.addEventListener('DOMContentLoaded', function () {
         const target = event.target;
         if (target === overlay || target.classList.contains('popup-close') || event.keyCode === 27) {
             overlay.style.display = 'none';
-            more.classList.remove('more-splash');
+            // more.classList.remove('more-splash');
             document.body.style.overflow = '';
         };
     };
@@ -125,14 +125,16 @@ window.addEventListener('DOMContentLoaded', function () {
     };
 
     let form = document.querySelector('.main-form'),
+        secondForm = document.querySelector('#form'),
         input = form.querySelectorAll('input'),
         statusMessage = document.createElement('div');                                          // блок, где будут выводится сообщения
 
     statusMessage.classList.add('status');
 
-    form.addEventListener('submit', (event) => {                                                // отслеживаем submit (именно его, а не клик)
-        // event.preventDefault();                                                              // убираем перезагрузку браузера
-        form.appendChild(statusMessage);
+    function handler(event) {
+ 
+        event.preventDefault();                                                              // убираем перезагрузку браузера
+        this.appendChild(statusMessage);
 
         let request = new XMLHttpRequest();                                                     // создаем запрос
         request.open('POST', 'server.php');                                                     // настройка запроса (метод, урл сервера, прочее)
@@ -140,7 +142,7 @@ window.addEventListener('DOMContentLoaded', function () {
         //request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');          //если нужен ответ в JSON
         
 
-        let formData = new FormData(form);
+        let formData = new FormData(this);
 
         // let obj = {};
         // formData.forEach((value,key)=>{
@@ -163,9 +165,14 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-            for (let i=0; i<input.length; i++) {                                                // очищаем инпуты 
-                input[i].value = '';
+        let inputs = this.querySelectorAll('input');
+
+            for (let i=0; i<inputs.length; i++) {                                                // очищаем инпуты 
+                inputs[i].value = '';
             };
-    });
+    };
+
+    form.addEventListener('submit', handler);                                                  // отслеживаем submit (именно его, а не клик)
+    secondForm.addEventListener('submit', handler);
 
 });
