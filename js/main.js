@@ -93,17 +93,15 @@ window.addEventListener('DOMContentLoaded', function () {
         close = document.querySelector('.popup-close'),
         descriptionBtn = document.querySelectorAll('.description-btn');
      
-    const openModal = () => {
+    const openModal = () => {                                                                                       // фукция открытия модального окна
         overlay.style.display = 'block';
-        // this.classList.add('more-splash');
         document.body.style.overflow = 'hidden';
     };
 
-    const closeModal = (event) => {
+    const closeModal = (event) => {                                                                                 // функция закрытия окна
         const target = event.target;
-        if (target === overlay || target.classList.contains('popup-close') || event.keyCode === 27) {
+        if (target === overlay || target.classList.contains('popup-close') || event.keyCode === 27) {               // закрывать будетм при клике на оверлей, кнопочку, при нажатии esc
             overlay.style.display = 'none';
-            // more.classList.remove('more-splash');
             document.body.style.overflow = '';
         };
     };
@@ -165,9 +163,9 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        let inputs = this.querySelectorAll('input');
+        let inputs = this.querySelectorAll('input');                                             //очищаем инпуты после отправки формы
 
-            for (let i=0; i<inputs.length; i++) {                                                // очищаем инпуты 
+            for (let i=0; i<inputs.length; i++) {                                                
                 inputs[i].value = '';
             };
     };
