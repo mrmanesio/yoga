@@ -184,6 +184,9 @@ window.addEventListener('DOMContentLoaded', function () {
         dotsWrap = document.querySelector('.slider-dots'),
         dots = document.querySelectorAll('.dot');
 
+    showSlides(slideIndex);
+
+
     function showSlides(n) {
 
         if (n > slides.length) {
@@ -228,7 +231,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
 
-    showSlides(slideIndex);
 
 
 
