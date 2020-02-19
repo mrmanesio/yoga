@@ -1,30 +1,30 @@
 window.addEventListener('DOMContentLoaded', function () {
     'use strict'
 
-    let tab = document.querySelectorAll('.info-header-tab'),          // получение переменных
+    let tab = document.querySelectorAll('.info-header-tab'), // получение переменных
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
 
-    function hideTabContent(a) {                                       // функция, скрывающая ненужные табы, начиная с а-го 
+    function hideTabContent(a) { // функция, скрывающая ненужные табы, начиная с а-го 
         for (let i = a; i < tabContent.length; i++) {
             tabContent[i].classList.remove('show');
             tabContent[i].classList.add('hide');
         }
     };
 
-    hideTabContent(1);                                                 // показываем только первый таб
+    hideTabContent(1); // показываем только первый таб
 
-    function showTabContent(b) {                                        // функция показа табов
+    function showTabContent(b) { // функция показа табов
         if (tabContent[b].classList.contains('hide')) {
             tabContent[b].classList.add('show');
             tabContent[b].classList.remove('hide');
         }
     };
 
-    info.addEventListener('click', function(e) {                        //обработчик клика. Используем делегирование
+    info.addEventListener('click', function (e) { //обработчик клика. Используем делегирование
         let target = e.target;
-        if (target && target.classList.contains('info-header-tab')) {   //если место клика содержит таб, то вывести таб по номеру кликнутого
-            for (let i=0; i<tab.length; i++) {
+        if (target && target.classList.contains('info-header-tab')) { //если место клика содержит таб, то вывести таб по номеру кликнутого
+            for (let i = 0; i < tab.length; i++) {
                 if (target == tab[i]) {
                     hideTabContent(0);
                     showTabContent(i);
@@ -41,9 +41,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(new Date()),
-            seconds = Math.floor((t/1000) % 60),
-            minutes = Math.floor((t/1000/60) % 60),
-            hours = Math.floor(t/(1000*3600));
+            seconds = Math.floor((t / 1000) % 60),
+            minutes = Math.floor((t / 1000 / 60) % 60),
+            hours = Math.floor(t / (1000 * 3600));
 
         return {
             'total': t,
@@ -92,31 +92,31 @@ window.addEventListener('DOMContentLoaded', function () {
         overlay = document.querySelector('.overlay'),
         close = document.querySelector('.popup-close'),
         descriptionBtn = document.querySelectorAll('.description-btn');
-     
-    const openModal = () => {                                                                                       // фукция открытия модального окна
+
+    const openModal = () => { // фукция открытия модального окна
         overlay.style.display = 'block';
         document.body.style.overflow = 'hidden';
     };
 
-    const closeModal = (event) => {                                                                                 // функция закрытия окна
+    const closeModal = (event) => { // функция закрытия окна
         const target = event.target;
-        if (target === overlay || target.classList.contains('popup-close') || event.keyCode === 27) {               // закрывать будетм при клике на оверлей, кнопочку, при нажатии esc
+        if (target === overlay || target.classList.contains('popup-close') || event.keyCode === 27) { // закрывать будетм при клике на оверлей, кнопочку, при нажатии esc
             overlay.style.display = 'none';
             document.body.style.overflow = '';
         };
     };
 
     more.addEventListener('click', openModal);
-    descriptionBtn.forEach(function(item) {
+    descriptionBtn.forEach(function (item) {
         item.addEventListener('click', openModal);
     });
 
     overlay.addEventListener('click', closeModal);
     document.addEventListener('keyup', closeModal);
- 
+
     // Forms
 
-    let message = {                                                     
+    let message = {
         loading: 'Загрузка',
         success: 'Спасибо, мы свяжемся с Вами...',
         failure: 'Что-то пошло не так...'
@@ -125,20 +125,20 @@ window.addEventListener('DOMContentLoaded', function () {
     let form = document.querySelector('.main-form'),
         secondForm = document.querySelector('#form'),
         input = form.querySelectorAll('input'),
-        statusMessage = document.createElement('div');                                          // блок, где будут выводится сообщения
+        statusMessage = document.createElement('div'); // блок, где будут выводится сообщения
 
     statusMessage.classList.add('status');
 
     function handler(event) {
- 
-        event.preventDefault();                                                              // убираем перезагрузку браузера
+
+        event.preventDefault(); // убираем перезагрузку браузера
         this.appendChild(statusMessage);
 
-        let request = new XMLHttpRequest();                                                     // создаем запрос
-        request.open('POST', 'server.php');                                                     // настройка запроса (метод, урл сервера, прочее)
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');          
+        let request = new XMLHttpRequest(); // создаем запрос
+        request.open('POST', 'server.php'); // настройка запроса (метод, урл сервера, прочее)
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         //request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');          //если нужен ответ в JSON
-        
+
 
         let formData = new FormData(this);
 
@@ -152,8 +152,8 @@ window.addEventListener('DOMContentLoaded', function () {
         // request.send(json);
 
 
-        request.addEventListener('readystatechange', () => {                                    // отсеживаем событие readystatechange, 
-            if (request.readyState < 4) {                                                       // 4 возвращает, когда все ок
+        request.addEventListener('readystatechange', () => { // отсеживаем событие readystatechange, 
+            if (request.readyState < 4) { // 4 возвращает, когда все ок
                 statusMessage.innerHTML = message.loading;
             } else if (request.readyState === 4 & request.status == 200) {
                 statusMessage.innerHTML = message.success;
@@ -163,14 +163,73 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        let inputs = this.querySelectorAll('input');                                             //очищаем инпуты после отправки формы
+        let inputs = this.querySelectorAll('input'); //очищаем инпуты после отправки формы
 
-            for (let i=0; i<inputs.length; i++) {                                                
-                inputs[i].value = '';
-            };
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = '';
+        };
     };
 
-    form.addEventListener('submit', handler);                                                  // отслеживаем submit (именно его, а не клик)
+    form.addEventListener('submit', handler); // отслеживаем submit (именно его, а не клик)
     secondForm.addEventListener('submit', handler);
+
+
+
+    // slider
+
+    let slideIndex = 1, // параметр текущего слайда
+        slides = document.querySelectorAll('.slider-item'),
+        prev = document.querySelector('.prev'),
+        next = document.querySelector('.next'),
+        dotsWrap = document.querySelector('.slider-dots'),
+        dots = document.querySelectorAll('.dot');
+
+    function showSlides(n) {
+
+        if (n > slides.length) {
+            n = 1;
+        }
+
+        if (n < 1) {
+            n = slides.length;
+        }
+
+        slides.forEach((item) => item.style.display = 'none');
+        dots.forEach((item) => item.classList.remove('dot-active'));
+        slides[n - 1].style.display = 'block';
+        dots[n - 1].classList.add('dot-active');
+    }
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(n)
+    };
+
+    prev.addEventListener('click', () => {
+        plusSlides(-1);
+    });
+
+    next.addEventListener('click', () => {
+        plusSlides(1);
+    });
+
+    dotsWrap.addEventListener('click', (event) => {
+        for (let i = 0; i < dots.length + 1; i++) {
+            if (event.target.classList.contains('dot') && event.target==dots[i-1]) {
+                currentSlide(i);
+            }
+        }
+    })
+
+
+
+
+
+    showSlides(slideIndex);
+
+
 
 });
